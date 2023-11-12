@@ -1,6 +1,6 @@
 # My Store Data
 
-My store data is a REST API (Express.js) integrated with a database (PostgreSQL).
+My store data is a REST API (Express.js) of a store, integrated with a database (PostgreSQL).
 
 ## Deployment
 
