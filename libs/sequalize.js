@@ -11,8 +11,10 @@ const options = {
   dialect: 'postgres'
 }
 if (isProd) {
-  options.ssl = {
-    rejectUnauthorized: false
+  options.dialectOptions = {
+    ssl: {
+      rejectUnauthorized: false
+    }
   }
 }
 
