@@ -1,18 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <script>
-    (async ()=> {
-      const response = await fetch('http://localhost:3000/api/v1/products');
-      const data = await response.json();
-      console.log(data);
-    })();
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body
+    style="
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 5rem;
+      background-color: black;
+    "
+  >
+    <script>
+      (async () => {
+        const response = await fetch("http://localhost:3000/api/v1/products");
+        const data = await response.json();
+        console.log(data);
+        const body = document.body;
+        const productsContainer = document.createElement("div");
+        const toRender = [];
+        data.map((product) => {
+          const productContainer = document.createElement("div");
+          productContainer.style =
+            "width: 300px; text-align: center; overflow-wrap: break-word";
+          const productName = document.createElement("p");
+          productName.textContent = product.name;
+          productName.style = "color: white; font-size: 1.5rem; font-weight: medium";
+          const productImage = document.createElement("img");
+          productImage.src = product.image;
+          productImage.style = "width:200px";
+          productContainer.append(productName, productImage);
+          toRender.push(productContainer);
+        });
+        body.append(...toRender);
+      })();
+    </script>
+  </body>
 </html>

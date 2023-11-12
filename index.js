@@ -29,6 +29,10 @@ app.get('/nueva-ruta', (req, res) => {
   res.send('Hello, Im a new route');
 });
 
+app.get('/frontend.html', (req, res) => {
+  res.sendFile(__dirname + '/frontend.html')
+})
+
 routerApi(app);
 
 app.use(logErrors);
