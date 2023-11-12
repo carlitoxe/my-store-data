@@ -22,11 +22,11 @@ const options = {
 app.use(cors(options));
 
 app.get('/', (req, res) => {
-  res.send('Hola mi server en express');
+  res.send('Hello World, this is my server on Express');
 });
 
 app.get('/nueva-ruta', (req, res) => {
-  res.send('Hola, soy una nueva ruta');
+  res.send('Hello, Im a new route');
 });
 
 routerApi(app);
