@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
 const validatorHandler = require('./../middlewares/validator.handler');
 const {
@@ -35,10 +36,13 @@ router.get(
 
 router.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createOrderSchema, 'body'),
   async (req, res, next) => {
     try {
-      const body = req.body;
+      const body = {
+        userId: req.user.sub
+      };
       const newOrder = await service.create(body);
       res.status(201).json(newOrder);
     } catch (error) {

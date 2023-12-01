@@ -1,4 +1,6 @@
 const boom = require('@hapi/boom');
+const bcrypt = require('bcrypt');
+
 
 // const getConnection = require('../libs/postgres');
 const { models } = require('../libs/sequalize')
@@ -12,9 +14,19 @@ class CustomerService {
     //   ...data,
     //   userId: newUser.id
     // })
-    const newCustomer = await models.Customer.create(data, {
-      include: ['user']
-    });
+    const hash = await bcrypt.hash(data.user.password, 10);
+    const newData = {
+      ...data,
+      user: {
+        ...data.user,
+        password: hash
+      }
+    }
+    const newCustomer = await models.Customer.create(
+      newData, {
+        include: ['user']
+      })
+    delete newCustomer.user.dataValues.password;
     return newCustomer;
   }
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
+const { checkApikey } = require('./middlewares/auth.handler')
 
 const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
 
@@ -21,11 +22,13 @@ const options = {
 }
 app.use(cors(options));
 
+require('./utils/auth');
+
 app.get('/', (req, res) => {
   res.send('Hello World, this is my server on Express');
 });
 
-app.get('/nueva-ruta', (req, res) => {
+app.get('/nueva-ruta', checkApikey, (req, res) => {
   res.send('Hello, Im a new route');
 });
 
@@ -39,6 +42,7 @@ app.use(logErrors);
 app.use(ormErrorHandler);
 app.use(boomErrorHandler);
 app.use(errorHandler);
+app.use(checkApikey)
 
 
 app.listen(port, () => {
