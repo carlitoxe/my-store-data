@@ -38,14 +38,17 @@ class AuthService {
     }
     const payload = { sub: user.id };
     const token = jwt.sign(payload, jwtSecret, { expiresIn: '15min' });
-    const link = `http://myfrontend/recovery?token=${token}`;
+    const link = process.env.NODE_ENV === 'production'
+    ? `https://ecommerce-nextjs-carlitoxe.vercel.app/recovery?token=${token}`
+    : `http://localhost:3000/recovery?token=${token}`;
+
     await service.update(user.id, { recoveryToken: token });
     const mail = {
-      from: `"Carlos Romero" <${smtpEmail}>`, // sender address
+      from: `"Shopi" <${smtpEmail}>`, // sender address
       to: `${user.email}`, // list of receivers
-      subject: "Password Recovery", // Subject line
+      subject: "Password Recovery. Shopi", // Subject line
       // text: "Sending this from backend with SMTP :D", // plain text body
-      html: `<b>Enter this link to recover your password => ${link} </b>`, // html body
+      html: `<b>Enter this link to recover your password: ${link} </b>`, // html body
     }
     const res = this.sendMail(mail);
     return res;
